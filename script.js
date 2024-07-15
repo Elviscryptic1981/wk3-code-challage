@@ -1,70 +1,56 @@
-const url = "https://backend-weld-pi.vercel.app/films"
 
-const title = document.querySelector("#title")
-const runtime = document.querySelector('#runtime')
-const filmInfo = document.querySelector('#filmInfo')
-const showtime = document.querySelector('#showtime')
-const ticketNum = document.querySelector('#ticketNum')
-const buyTicket = document.querySelector('#buyTicket')
-const poster = document.querySelector('#poster')
-const films = document.querySelector('#films')
-const subtitle = document.querySelector('#subtitle')
-const showing = document.querySelector('#showing')
-const body = document.querySelector('#body')[0]
+const myGetRequest = new Request("http://localhost:3000/films");
 
-fetch(url)
-.then((response) => response.json())
-.then((data) => {
-    const movieOne = data[0];
-    let remTickets = movieOne.capacity - movieOne.tickets_sold;
+const title = document.getElementById("title");
+const runtime = document.getElementById("runtime");
+const filmInfo = document.getElementById("film-info");
+const showtime = document.getElementById("showtime");
+const ticketNum = document.getElementById("ticket-num");
+const buyTicket = document.getElementById("buy-ticket");
+const poster = document.getElementById("poster");
+const films = document.getElementById("films");
 
-    title.innerHTML = `${movieOne.title}`;
-    filmInfo.innerHTML = `${movieOne.runtime}`
-    showtime.innerHTML = `${movieOne.showtime}`
-    ticketNum.innerHTML = `${movieOne.ticketNum}`
-    buyTicket.innerHTML = "Buy tickets";
-    poster.src = `${movieOne.poster}`
+let remainingTickets = 0; // Initialize remaining tickets
 
-    buyTicket.addEventListener("click", () => {
-        if (remTickets > 0) {
-            remTickets--;
-            ticketNum.innerHTML = `${remTickets}`;
+function updateMovieDetails(movie) {
+  title.innerHTML = movie.title;
+  runtime.innerHTML = movie.runtime;
+  filmInfo.innerHTML = movie.description;
+  showtime.innerHTML = movie.showtime;
+  poster.src = movie.poster;
 
-        }else if (remTickets === 0) {
-            ticketNum.innerHTML = `${remTickets}`;
-            buyTicket.innerHTML = `sold out`;
-        }
-    });
-    
-    films.innerHTML = "";
+  remainingTickets = movie.capacity - movie.tickets_sold;
+  ticketNum.innerHTML = remainingTickets;
+  buyTicket.innerHTML = remainingTickets > 0 ? "Buy ticket" : "Sold out!";
+}
 
-    data.forEach((movie, index) => {
+function handleTicketPurchase() {
+  if (remainingTickets > 0) {
+    remainingTickets--;
+    ticketNum.innerHTML = remainingTickets;
+  } else {
+    buyTicket.innerHTML = "Sold out!";
+  }
+}
+
+window.onload = () => {
+  fetch(myGetRequest)
+    .then((response) => response.json())
+    .then((data) => {
+      const firstMovie = data[0];
+      updateMovieDetails(firstMovie);
+
+      buyTicket.addEventListener("click", handleTicketPurchase);
+
+      films.innerHTML = "";
+      data.forEach((movie) => {
         const li = document.createElement("li");
-        li.innerHTML = `${movie.title}`;
+        li.innerHTML = movie.title;
         films.appendChild(li);
-        const deleteButton = document.createElement("button");
-        deleteButton.style.marginLeft = "5px";
-        li.appendChild(deleteButton);
-        li.addEventListener("mouseout", () => {
-            li.style.color = "black";
-        });
-        deleteButton.addEventListener("click", () => {
-            data.splice(index, 1);
-
-            films.removeChild(li);
-        });
 
         li.addEventListener("click", () => {
-            remainingTickets = movie.capacity - movie.tickets_sold;
-            title.innerHTML = `${movie.title}`;
-            runtime.innerHTML = `${movie.runtime}`;
-            filmInfo.innerHTML = `${movie.filmInfo}`;
-            showtime.innerHTML = `${movie.showtime}`;
-            ticketNum.innerHTML = "Buy ticket";
-            buyTicket.innerHTML = `${movie.poster}`;
-        })
-
+          updateMovieDetails(movie);
+        });
+      });
     });
-        
-    
-});
+};
