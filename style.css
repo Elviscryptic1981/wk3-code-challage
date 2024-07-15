@@ -1,0 +1,27 @@
+@import url(https://fonts.googleapis.com/css2?family=Monoton&display=swap);
+@import url(htpps://font.googleapis.com/css2?family=Ga+Maamli&family=Monoton&display=swap);
+.content {
+    font-family: "Monoton", sans-serif;
+    font-size: large;
+    color: red;
+}
+.filmitem {
+    font-size: medium;
+    font-style: italic;
+    font-family: "Ga Maali", sans-serif;
+}
+#subtitle {
+    font-family: "Monoton", sans-serif;
+    font-size: medium;
+    color: maroon;
+}
+#poster {
+    width: 400px;
+    height: 500px;
+}
+body {
+    background-image: url(https://plus.unsplash.com/premium_vector-1682303466154-2161da750ac7?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bW92aWUlMjB0aGVhdGVyfGVufDB8fDB8fHww) ;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
