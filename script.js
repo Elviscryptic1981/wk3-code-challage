@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const buyTicketButton = document.getElementById('buy-ticket');
   let currentMovie;
 
-  // Fetch and display the first movie's details
+  // Fetch and display first movie's details
   fetch('http://localhost:3000/films/1')
     .then(response => response.json())
     .then(data => {
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(error => console.error('Error fetching movie details:', error));
 
-  // Fetch and display the list of all movies
+  // Fetch and display list of all movies
   fetch('http://localhost:3000/films')
     .then(response => response.json())
     .then(data => {
