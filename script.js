@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentMovie;
 
   // Fetch and display first movie's details
-  fetch('http://localhost:3000/films/1')
+  fetch('https://flatdango-lime.vercel.app/films/1')
     .then(response => response.json())
     .then(data => {
       currentMovie = data;
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch(error => console.error('Error fetching movie details:', error));
 
   // Fetch and display list of all movies
-  fetch('http://localhost:3000/films')
+  fetch('https://flatdango-lime.vercel.app/films')
     .then(response => response.json())
     .then(data => {
       data.forEach(film => {
